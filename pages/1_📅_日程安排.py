@@ -7,99 +7,19 @@ import calendar
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 import database as db
+import style
 
 st.set_page_config(page_title="日程安排", page_icon="📅", layout="wide", initial_sidebar_state="expanded")
 db.init_db()
 
+style.apply_global_style()
+style.inject_sidebar_toggle_fallback()
+
 st.markdown("""
 <style>
-/* ===== 侧边栏 ===== */
-section[data-testid="stSidebar"] {
-    background: linear-gradient(160deg, #1e2a4a 0%, #2d3a6b 100%);
-}
-section[data-testid="stSidebar"] * {
-    color: #e0e7ff !important;
-}
-section[data-testid="stSidebar"] a {
-    color: #a5c8ff !important;
-}
-section[data-testid="stSidebar"] hr {
-    border-color: #4a5888 !important;
-}
-section[data-testid="stSidebar"] button {
-    color: #1e293b !important;
-}
-
-/* ===== 主内容区 ===== */
-.stApp {
-    background-color: #f5f6fa;
-}
-.stMainBlockContainer {
-    color: #1e293b;
-}
-
-/* ===== 日历网格 ===== */
-.cal-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 5px;
-}
-.cal-header {
-    text-align: center;
-    font-weight: 700;
-    color: #64748b;
-    padding: 6px 0;
-    font-size: .82rem;
-    letter-spacing: .04em;
-}
-.cal-day {
-    min-height: 68px;
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    padding: 6px 8px;
-    cursor: pointer;
-    transition: border-color .15s, box-shadow .15s;
-}
-.cal-day:hover { border-color: #2563eb; box-shadow: 0 2px 8px rgba(37,99,235,.12); }
-.cal-day.today {
-    border-color: #2563eb;
-    background: #eff6ff;
-    box-shadow: 0 0 0 2px rgba(37,99,235,.2);
-}
-.cal-day.other  { opacity: .4; }
-.cal-day.selected { border-color: #7c3aed; background: #f5f3ff; }
-.day-num {
-    font-weight: 700;
-    font-size: .9rem;
-    color: #1e293b;
-}
-.cal-day.today .day-num { color: #2563eb; }
-.day-dot {
-    width: 7px; height: 7px; border-radius: 50%;
-    display: inline-block; margin: 1px 2px;
-}
-
-/* ===== 事件卡片 ===== */
-.ev-card {
-    background: #ffffff;
-    border-left: 4px solid #2563eb;
-    border-radius: 8px;
-    padding: 11px 15px;
-    margin-bottom: 9px;
-    box-shadow: 0 1px 6px rgba(0,0,0,.06);
-}
-.ev-title { font-weight: 700; font-size: .97rem; color: #1e293b; }
-.ev-meta  { color: #64748b; font-size: .82rem; margin-top: 4px; }
-.ev-note  { color: #475569; font-size: .82rem; margin-top: 4px; background: #f8fafc; border-radius: 4px; padding: 4px 8px; }
-
-/* ===== 通用 ===== */
-h1, h2, h3 { color: #1e293b !important; }
-p, li  { color: #334155; }
-#MainMenu {visibility: hidden;}
-footer {visibility: hidden;}
-header[data-testid="stHeader"] {visibility: hidden;}
-
+/* 页面特有微调 */
+.stTabs [data-baseweb="tab-list"] { gap: 12px; }
+.stTabs [data-baseweb="tab"] { padding: 8px 16px; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -119,6 +39,7 @@ if "sel_date"  not in st.session_state: st.session_state.sel_date  = datetime.no
 if "show_add"  not in st.session_state: st.session_state.show_add  = False
 if "edit_ev"   not in st.session_state: st.session_state.edit_ev   = None
 
+style.sidebar_menu_hint()
 st.title("📅 日程安排")
 
 col_cal, col_detail = st.columns([3, 2], gap="large")

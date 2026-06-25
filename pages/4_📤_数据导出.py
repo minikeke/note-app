@@ -13,49 +13,13 @@ from datetime import datetime, timedelta
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 import database as db
+import style
 
 st.set_page_config(page_title="数据导出", page_icon="📤", layout="wide", initial_sidebar_state="expanded")
 db.init_db()
 
-st.markdown("""
-<style>
-section[data-testid="stSidebar"] {
-    background: linear-gradient(160deg, #1e2a4a 0%, #2d3a6b 100%);
-}
-section[data-testid="stSidebar"] * {
-    color: #e0e7ff !important;
-}
-section[data-testid="stSidebar"] a {
-    color: #a5c8ff !important;
-}
-section[data-testid="stSidebar"] hr {
-    border-color: #4a5888 !important;
-}
-section[data-testid="stSidebar"] button {
-    color: #1e293b !important;
-}
-.stApp { background-color: #f5f6fa; }
-.stMainBlockContainer { color: #1e293b; }
-h1,h2,h3 { color: #1e293b !important; }
-#MainMenu {visibility: hidden;}
-footer {visibility: hidden;}
-header[data-testid="stHeader"] {visibility: hidden;}
-
-.export-card {
-    background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px;
-    padding: 20px 22px; margin-bottom: 14px;
-    box-shadow: 0 1px 6px rgba(0,0,0,.06);
-}
-.export-card h4 { color: #1e293b; margin: 0 0 8px 0; font-size: 1rem; }
-.export-card p  { color: #64748b; font-size: .86rem; margin: 0 0 12px 0; }
-
-.ima-tip {
-    background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 10px;
-    padding: 14px 18px; margin-bottom: 16px;
-}
-.ima-tip p { color: #1d4ed8; font-size: .88rem; margin: 0; }
-</style>
-""", unsafe_allow_html=True)
+style.apply_global_style()
+style.inject_sidebar_toggle_fallback()
 
 # ── 侧边栏 ────────────────────────────────────────────────────────
 with st.sidebar:
@@ -67,6 +31,7 @@ with st.sidebar:
     st.page_link("pages/3_🚀_项目管理.py",   label="🚀 项目管理")
     st.page_link("pages/4_📤_数据导出.py",   label="📤 数据导出")
 
+style.sidebar_menu_hint()
 st.title("📤 数据导出 & IMA 同步")
 
 # IMA 提示

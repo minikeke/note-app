@@ -6,50 +6,13 @@ from datetime import datetime
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 import database as db
+import style
 
 st.set_page_config(page_title="随笔笔记", page_icon="📝", layout="wide", initial_sidebar_state="expanded")
 db.init_db()
 
-st.markdown("""
-<style>
-section[data-testid="stSidebar"] {
-    background: linear-gradient(160deg, #1e2a4a 0%, #2d3a6b 100%);
-}
-section[data-testid="stSidebar"] * {
-    color: #e0e7ff !important;
-}
-section[data-testid="stSidebar"] a {
-    color: #a5c8ff !important;
-}
-section[data-testid="stSidebar"] hr {
-    border-color: #4a5888 !important;
-}
-section[data-testid="stSidebar"] button {
-    color: #1e293b !important;
-}
-.stApp { background-color: #f5f6fa; }
-.stMainBlockContainer { color: #1e293b; }
-h1,h2,h3 { color: #1e293b !important; }
-#MainMenu {visibility: hidden;}
-footer {visibility: hidden;}
-header[data-testid="stHeader"] {visibility: hidden;}
-.note-card {
-    background:#ffffff; border:1px solid #e2e8f0;
-    border-radius:10px; padding:14px 16px; margin-bottom:10px;
-    cursor:pointer; transition:border-color .2s;
-    box-shadow: 0 1px 5px rgba(0,0,0,.05);
-}
-.note-card:hover { border-color:#2563eb; }
-.note-card.pinned { border-left:4px solid #f59e0b; }
-.nc-title  { font-weight:700; font-size:1rem; color:#1e293b; }
-.nc-snippet{ color:#64748b; font-size:.85rem; margin:4px 0; }
-.nc-meta   { color:#94a3b8; font-size:.78rem; }
-.tag-chip  {
-    display:inline-block; background:#eff6ff; border-radius:5px;
-    padding:2px 9px; margin:2px 3px; font-size:.78rem; color:#2563eb; font-weight:500;
-}
-</style>
-""", unsafe_allow_html=True)
+style.apply_global_style()
+style.inject_sidebar_toggle_fallback()
 
 # ── 侧边栏 ────────────────────────────────────────────────────────
 with st.sidebar:
@@ -84,6 +47,7 @@ def new_note():
     st.session_state.active_note_id = None
     st.session_state.note_mode      = "edit"
 
+style.sidebar_menu_hint()
 st.title("📝 随笔笔记")
 
 # ── 搜索栏 ────────────────────────────────────────────────────────

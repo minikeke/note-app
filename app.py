@@ -8,6 +8,7 @@ import plotly.graph_objects as go
 import sys, os
 sys.path.insert(0, os.path.dirname(__file__))
 import database as db
+import style
 
 # ── 页面配置 ──────────────────────────────────────────────────────
 st.set_page_config(
@@ -21,90 +22,8 @@ st.set_page_config(
 db.init_db()
 
 # ── 全局样式（浅色主题） ──────────────────────────────────────────
-st.markdown("""
-<style>
-/* ===== 侧边栏 ===== */
-section[data-testid="stSidebar"] {
-    background: linear-gradient(160deg, #1e2a4a 0%, #2d3a6b 100%);
-}
-section[data-testid="stSidebar"] * {
-    color: #e0e7ff !important;
-}
-section[data-testid="stSidebar"] a {
-    color: #a5c8ff !important;
-}
-section[data-testid="stSidebar"] hr {
-    border-color: #4a5888 !important;
-}
-section[data-testid="stSidebar"] button {
-    color: #1e293b !important;
-}
-
-/* ===== 主内容区 ===== */
-.stApp {
-    background-color: #f5f6fa;
-}
-.stMainBlockContainer {
-    color: #1e293b;
-}
-
-/* ===== 统计卡片 ===== */
-.stat-card {
-    background: #ffffff;
-    border: 1px solid #dde1f0;
-    border-radius: 14px;
-    padding: 22px 18px;
-    text-align: center;
-    box-shadow: 0 2px 10px rgba(79,142,247,.08);
-}
-.stat-icon   { font-size: 1.7rem; }
-.stat-number {
-    font-size: 2.4rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, #2563eb, #7c3aed);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    line-height: 1.2;
-}
-.stat-label  { color: #64748b; font-size: .88rem; margin-top: 5px; font-weight: 500; }
-
-/* ===== 事件卡片 ===== */
-.event-row {
-    background: #ffffff;
-    border-left: 4px solid #2563eb;
-    border-radius: 8px;
-    padding: 11px 15px;
-    margin-bottom: 9px;
-    box-shadow: 0 1px 6px rgba(0,0,0,.06);
-}
-.event-title { font-weight: 700; font-size: 1rem; color: #1e293b; }
-.event-meta  { color: #64748b; font-size: .83rem; margin-top: 3px; }
-
-/* ===== 笔记预览卡片 ===== */
-.note-preview {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 10px;
-    padding: 14px 16px;
-    margin-bottom: 9px;
-    box-shadow: 0 1px 5px rgba(0,0,0,.05);
-}
-.note-title   { font-weight: 700; font-size: .97rem; color: #1e293b; margin-bottom: 4px; }
-.note-snippet { color: #64748b; font-size: .85rem; }
-.note-tag {
-    display: inline-block; background: #eff6ff; color: #2563eb;
-    border-radius: 5px; padding: 1px 9px; font-size: .76rem;
-    margin: 2px 3px 0 0; font-weight: 500;
-}
-
-/* ===== 标题 ===== */
-h1, h2, h3 { color: #1e293b !important; }
-
-/* ===== 隐藏 Streamlit 默认装饰 ===== */
-#MainMenu {visibility: hidden;}
-footer {visibility: hidden;}
-</style>
-""", unsafe_allow_html=True)
+style.apply_global_style()
+style.inject_sidebar_toggle_fallback()
 
 # ── 侧边栏 ────────────────────────────────────────────────────────
 with st.sidebar:
@@ -126,6 +45,7 @@ with st.sidebar:
     st.caption("v1.1  ·  SQLite 本地存储")
 
 # ── 主内容 ────────────────────────────────────────────────────────
+style.sidebar_menu_hint()
 st.title("🏠 今日概览")
 
 stats = db.get_stats()

@@ -6,71 +6,13 @@ from datetime import datetime
 import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 import database as db
+import style
 
 st.set_page_config(page_title="项目管理", page_icon="🚀", layout="wide", initial_sidebar_state="expanded")
 db.init_db()
 
-st.markdown("""
-<style>
-section[data-testid="stSidebar"] {
-    background: linear-gradient(160deg, #1e2a4a 0%, #2d3a6b 100%);
-}
-section[data-testid="stSidebar"] * {
-    color: #e0e7ff !important;
-}
-section[data-testid="stSidebar"] a {
-    color: #a5c8ff !important;
-}
-section[data-testid="stSidebar"] hr {
-    border-color: #4a5888 !important;
-}
-section[data-testid="stSidebar"] button {
-    color: #1e293b !important;
-}
-.stApp { background-color: #f5f6fa; }
-.stMainBlockContainer { color: #1e293b; }
-h1,h2,h3 { color: #1e293b !important; }
-#MainMenu {visibility: hidden;}
-footer {visibility: hidden;}
-header[data-testid="stHeader"] {visibility: hidden;}
-
-.proj-card {
-    background:#ffffff; border:1px solid #e2e8f0; border-radius:12px;
-    padding:16px; margin-bottom:10px; cursor:pointer; transition:border-color .2s;
-    box-shadow: 0 1px 6px rgba(0,0,0,.06);
-}
-.proj-card:hover { border-color:#7c3aed; box-shadow: 0 3px 12px rgba(124,58,237,.1); }
-.proj-card.active-proj { border-color:#7c3aed; background:#faf5ff; }
-.proj-name { font-weight:700; font-size:1.05rem; color:#1e293b; }
-.proj-desc { color:#64748b; font-size:.85rem; margin:4px 0; }
-.proj-meta { color:#94a3b8; font-size:.78rem; }
-
-.task-card {
-    background:#ffffff; border:1px solid #e2e8f0; border-radius:8px;
-    padding:10px 12px; margin-bottom:8px;
-    box-shadow: 0 1px 4px rgba(0,0,0,.05);
-}
-.task-title { font-weight:600; font-size:.9rem; color:#1e293b; }
-.task-desc  { color:#64748b; font-size:.82rem; margin-top:3px; }
-.task-due   { color:#94a3b8; font-size:.78rem; margin-top:4px; }
-
-.priority-high   { border-left:3px solid #ef4444; }
-.priority-medium { border-left:3px solid #f59e0b; }
-.priority-low    { border-left:3px solid #22c55e; }
-
-.kanban-header {
-    text-align:center; padding:9px; border-radius:8px;
-    font-weight:700; font-size:.9rem; margin-bottom:10px;
-}
-.progress-bar {
-    background:#e2e8f0; border-radius:4px; height:7px; overflow:hidden; margin-top:6px;
-}
-.progress-fill {
-    background:linear-gradient(90deg,#2563eb,#7c3aed); height:100%;
-    border-radius:4px; transition:width .4s;
-}
-</style>
-""", unsafe_allow_html=True)
+style.apply_global_style()
+style.inject_sidebar_toggle_fallback()
 
 # ── 侧边栏 ────────────────────────────────────────────────────────
 with st.sidebar:
@@ -86,6 +28,7 @@ if "active_proj_id"  not in st.session_state: st.session_state.active_proj_id  =
 if "show_new_proj"   not in st.session_state: st.session_state.show_new_proj   = False
 if "show_new_task"   not in st.session_state: st.session_state.show_new_task   = False
 
+style.sidebar_menu_hint()
 st.title("🚀 项目管理")
 
 proj_col, kanban_col = st.columns([1, 3], gap="large")
