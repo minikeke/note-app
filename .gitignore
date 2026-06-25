@@ -10,7 +10,6 @@ venv/
 
 # 本地启动脚本（含敏感信息）
 启动.bat
-防火墙放行.bat
 
 # WorkBuddy 项目数据
 .workbuddy/
@@ -25,7 +24,3 @@ Thumbs.db
 # IDE
 .vscode/
 .idea/
-
-# 临时文件
-URI
-nul
