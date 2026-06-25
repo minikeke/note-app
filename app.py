@@ -42,7 +42,8 @@ with st.sidebar:
     st.page_link("pages/3_🚀_项目管理.py",   label="🚀 项目管理")
 
     st.markdown("---")
-    st.caption("v1.1  ·  SQLite 本地存储")
+    backend_label = "☁️ Supabase" if db._IS_PG else "💾 SQLite"
+    st.caption(f"v1.2  ·  {backend_label}")
 
 # ── 主内容 ────────────────────────────────────────────────────────
 style.sidebar_menu_hint()

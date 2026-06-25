@@ -23,6 +23,7 @@ if not DATABASE_URL:
         pass
 
 _IS_PG = bool(DATABASE_URL)
+_DEBUG_DB_INFO = f"PG={_IS_PG} | url={'SET' if _IS_PG else 'NOT_SET'}"
 
 if _IS_PG:
     import psycopg2
