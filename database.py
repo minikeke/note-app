@@ -53,12 +53,14 @@ def _get_conn():
 
 
 def _dict(row):
-    """统一把行对象转成普通 dict。"""
+    """统一把行对象转成普通 dict，并将 datetime 转为字符串（兼容 SQLite 的 TEXT 返回）。"""
     if row is None:
         return None
-    if isinstance(row, dict):
-        return dict(row)
-    return dict(row)
+    d = dict(row) if not isinstance(row, dict) else dict(row)
+    for k, v in d.items():
+        if isinstance(v, datetime):
+            d[k] = v.strftime("%Y-%m-%d %H:%M:%S")
+    return d
 
 
 def _execute(cur, sql: str, params=()):
@@ -225,8 +227,8 @@ def get_events(month: str = None):
     if month:
         if _IS_PG:
             _execute(cur,
-                "SELECT * FROM events WHERE TO_CHAR(date, 'YYYY-MM')=? ORDER BY date, start_time",
-                (month,)
+                "SELECT * FROM events WHERE date LIKE ? ORDER BY date, start_time",
+                (month + "-%",)
             )
         else:
             _execute(cur,
