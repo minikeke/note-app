@@ -14,8 +14,10 @@ import sys, os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 import database as db
 import style
+import auth
 
 st.set_page_config(page_title="数据导出", page_icon="📤", layout="wide", initial_sidebar_state="expanded")
+auth.require_login()
 db.init_db()
 
 style.apply_global_style()
@@ -30,6 +32,7 @@ with st.sidebar:
     st.page_link("pages/2_📝_随笔笔记.py",   label="📝 随笔笔记")
     st.page_link("pages/3_🚀_项目管理.py",   label="🚀 项目管理")
     st.page_link("pages/4_📤_数据导出.py",   label="📤 数据导出")
+    auth.show_logout()
 
 style.sidebar_menu_hint()
 st.title("📤 数据导出 & IMA 同步")

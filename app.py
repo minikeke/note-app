@@ -9,6 +9,7 @@ import sys, os
 sys.path.insert(0, os.path.dirname(__file__))
 import database as db
 import style
+import auth
 
 # ── 页面配置 ──────────────────────────────────────────────────────
 st.set_page_config(
@@ -17,6 +18,8 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
 )
+
+auth.require_login()
 
 # ── 初始化数据库 ──────────────────────────────────────────────────
 db.init_db()
@@ -44,6 +47,7 @@ with st.sidebar:
     st.markdown("---")
     backend_label = "☁️ Supabase" if db._IS_PG else "💾 SQLite"
     st.caption(f"v1.2  ·  {backend_label}")
+    auth.show_logout()
 
 # ── 主内容 ────────────────────────────────────────────────────────
 style.sidebar_menu_hint()
